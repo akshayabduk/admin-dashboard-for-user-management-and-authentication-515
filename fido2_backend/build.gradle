@@ -19,8 +19,6 @@ repositories {
 	mavenCentral()
 }
 
-
-
 dependencies {
 	implementation 'org.springframework.boot:spring-boot-starter-actuator'
 	implementation 'org.springframework.boot:spring-boot-starter-data-jpa'
@@ -48,7 +46,9 @@ tasks.named('test') {
 	useJUnitPlatform()
 }
 
-// Define no-op Checkstyle tasks so CI won't fail if it tries to invoke them
+// Ensure any CI that attempts to invoke checkstyle tasks won't fail the build.
+// We do NOT apply the checkstyle plugin here; instead we define placeholder tasks.
+// This avoids the "unknown method checkstyle()" error during evaluation in environments that expect these tasks.
 tasks.register('checkstyleMain') {
 	group = 'verification'
 	description = 'No-op placeholder: Checkstyle disabled for this project.'
@@ -63,5 +63,3 @@ tasks.register('checkstyleTest') {
 		logger.lifecycle("checkstyleTest is a no-op in this project.")
 	}
 }
-
-// Checkstyle intentionally not applied to avoid CI invoking non-existent tasks
