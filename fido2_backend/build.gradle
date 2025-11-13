@@ -32,8 +32,11 @@ dependencies {
 	implementation 'io.jsonwebtoken:jjwt-api:0.11.5'
 	runtimeOnly 'io.jsonwebtoken:jjwt-impl:0.11.5'
 	runtimeOnly 'io.jsonwebtoken:jjwt-jackson:0.11.5' // for Jackson serializers
+
 	// PostgreSQL driver
-	runtimeOnly 'org.postgresql:postgresql'
+	// Use implementation so it's available in both bootRun and packaged jar; rely on Spring Boot BOM for version.
+	implementation 'org.postgresql:postgresql'
+
 	// Devtools
 	developmentOnly 'org.springframework.boot:spring-boot-devtools'
 	// Tests
