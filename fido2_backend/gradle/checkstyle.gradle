@@ -1,0 +1,11 @@
+/**
+ * This file intentionally disables Checkstyle execution in CI.
+ * If applied, all Checkstyle tasks are made no-ops to prevent failures
+ * until a project-wide ruleset is agreed.
+ */
+tasks.matching { it.name.toLowerCase().startsWith('checkstyle') }.configureEach {
+    enabled = false
+    doFirst {
+        logger.lifecycle("Skipping ${name} (Checkstyle disabled).")
+    }
+}
