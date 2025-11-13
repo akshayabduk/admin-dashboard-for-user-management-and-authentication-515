@@ -1,65 +1,68 @@
 plugins {
-	id 'java'
-	// Checkstyle is intentionally not applied to avoid CI failures without a standard config
-	// id 'checkstyle'
-	id 'org.springframework.boot' version '3.4.8'
-	id 'io.spring.dependency-management' version '1.1.7'
+    id 'java'
+    // Checkstyle intentionally not applied to avoid CI failures without a standard config
+    // id 'checkstyle'
+    id 'org.springframework.boot' version '3.4.8'
+    id 'io.spring.dependency-management' version '1.1.7'
 }
 
 group = 'com.example'
 version = '0.1.0'
 
 java {
-	toolchain {
-		languageVersion = JavaLanguageVersion.of(17)
-	}
+    toolchain {
+        languageVersion = JavaLanguageVersion.of(17)
+    }
 }
 
 repositories {
-	mavenCentral()
+    mavenCentral()
 }
 
 dependencies {
-	implementation 'org.springframework.boot:spring-boot-starter-actuator'
-	implementation 'org.springframework.boot:spring-boot-starter-data-jpa'
-	implementation 'org.springframework.boot:spring-boot-starter-web'
-	implementation 'org.springdoc:springdoc-openapi-starter-webmvc-ui:2.3.0'
-	implementation 'org.flywaydb:flyway-core'
-	// Security + JWT
-	implementation 'org.springframework.boot:spring-boot-starter-security'
-	implementation 'io.jsonwebtoken:jjwt-api:0.11.5'
-	runtimeOnly 'io.jsonwebtoken:jjwt-impl:0.11.5'
-	runtimeOnly 'io.jsonwebtoken:jjwt-jackson:0.11.5' // for Jackson serializers
+    implementation 'org.springframework.boot:spring-boot-starter-actuator'
+    implementation 'org.springframework.boot:spring-boot-starter-data-jpa'
+    implementation 'org.springframework.boot:spring-boot-starter-web'
+    implementation 'org.springdoc:springdoc-openapi-starter-webmvc-ui:2.3.0'
+    implementation 'org.flywaydb:flyway-core'
 
-	// PostgreSQL driver
-	// Use implementation so it's available in both bootRun and packaged jar; rely on Spring Boot BOM for version.
-	implementation 'org.postgresql:postgresql'
+    // Security + JWT
+    implementation 'org.springframework.boot:spring-boot-starter-security'
+    implementation 'io.jsonwebtoken:jjwt-api:0.11.5'
+    runtimeOnly 'io.jsonwebtoken:jjwt-impl:0.11.5'
+    runtimeOnly 'io.jsonwebtoken:jjwt-jackson:0.11.5' // for Jackson serializers
 
-	// Devtools
-	developmentOnly 'org.springframework.boot:spring-boot-devtools'
-	// Tests
-	testImplementation 'org.springframework.boot:spring-boot-starter-test'
-	testRuntimeOnly 'org.junit.platform:junit-platform-launcher'
+    // PostgreSQL driver (implementation so it's on both bootRun and packaged jar classpaths)
+    implementation 'org.postgresql:postgresql'
+
+    // Devtools
+    developmentOnly 'org.springframework.boot:spring-boot-devtools'
+
+    // Tests
+    testImplementation 'org.springframework.boot:spring-boot-starter-test'
+    testRuntimeOnly 'org.junit.platform:junit-platform-launcher'
 }
 
 tasks.named('test') {
-	useJUnitPlatform()
+    useJUnitPlatform()
 }
 
-// Ensure any CI that attempts to invoke checkstyle tasks won't fail the build.
-// We do NOT apply the checkstyle plugin here; instead we define placeholder tasks.
-// This avoids the "unknown method checkstyle()" error during evaluation in environments that expect these tasks.
+/**
+ * Ensure any CI that attempts to invoke checkstyle tasks won't fail the build.
+ * We do NOT apply the checkstyle plugin here; instead we define placeholder tasks.
+ * This avoids errors during task graph resolution in environments that expect these tasks.
+ */
 tasks.register('checkstyleMain') {
-	group = 'verification'
-	description = 'No-op placeholder: Checkstyle disabled for this project.'
-	doLast {
-		logger.lifecycle("checkstyleMain is a no-op in this project.")
-	}
+    group = 'verification'
+    description = 'No-op placeholder: Checkstyle disabled for this project.'
+    doLast {
+        logger.lifecycle("checkstyleMain is a no-op in this project.")
+    }
 }
 tasks.register('checkstyleTest') {
-	group = 'verification'
-	description = 'No-op placeholder: Checkstyle disabled for this project.'
-	doLast {
-		logger.lifecycle("checkstyleTest is a no-op in this project.")
-	}
+    group = 'verification'
+    description = 'No-op placeholder: Checkstyle disabled for this project.'
+    doLast {
+        logger.lifecycle("checkstyleTest is a no-op in this project.")
+    }
 }
